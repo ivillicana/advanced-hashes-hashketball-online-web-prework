@@ -136,6 +136,40 @@ def shoe_size(name)
   end
 end
 
+def team_colors(team)
+  game_hash.each do |location, hash|
+    return hash[:colors] if hash[:team_name] == team
+  end
+end
+
+def team_names
+  game_hash.collect {|k, v| v[:team_name]}
+end
+
+def player_numbers(team)
+  game_hash.collect do |location, hash|
+    if hash[:team_name] == team
+      hash[:players].collect do |name, player_hash|
+        player_hash[:number]
+      end
+    end
+  end.compact.flatten
+end
+
+def player_stats(name)
+  game_hash.each do |k, hash|
+    return hash[:players][name] if hash[:players][name]
+  end
+end
+
+def big_shoe_rebounds
+  players = {}
+  game_hash.each do |location, hash|
+    hash[:players].each {|name, stats| players[name] = stats}
+  end
+
+  players.sort_by {|player, stats| stats[:shoe]}.last[1][:rebounds]
+end
 
 
 
